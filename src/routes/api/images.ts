@@ -1,31 +1,40 @@
-import express from "express";
-import { Request, Response } from "express";
-import { checkImageExists, manipulateImage } from "../../util";
-import path from "path";
+import express from 'express';
+import { Request, Response } from 'express';
+import { checkImageExists, manipulateImage } from '../../util';
+import path from 'path';
 
-const imageDirPath: string = path.resolve("Images");
+const imageDirPath: string = path.resolve('Images');
 const imagesRoute = express.Router();
 
-imagesRoute.get("/", async (req: Request, res: Response) => {
-  // Check if image is specified
-  if (!req.query.imageName) {
-    res.send("missing parameter imageName");
-  }
-  let imagePath = path.join(imageDirPath, req.query.imageName as string);
+imagesRoute.get('/', async (req: Request, res: Response) => {
+	// Check if image is specified
+	if (!req.query.imageName) {
+		res.status(400);
+		res.send('missing parameter imageName');
+		return;
+	}
 
-  if (await checkImageExists(imagePath)) {
-    if (req.query.height && req.query.width) {
-      imagePath = await manipulateImage(
-        imagePath,
-        parseInt(req.query.height as string),
-        parseInt(req.query.width as string)
-      );
-    }
+	let imagePath = path.join(imageDirPath, req.query.imageName as string);
 
-    res.sendFile(imagePath);
-  } else {
-    res.send("Image not found");
-  }
+	// Check if the image does exist
+	if (await checkImageExists(imagePath)) {
+		// Check if we have height and width parameters
+		// if yes we call the manipulationImage function to resize it and recieve the path of the new image
+		// if no we show the user the normal image
+		if (req.query.height && req.query.width) {
+			imagePath = await manipulateImage(
+				imagePath,
+				parseInt(req.query.height as string),
+				parseInt(req.query.width as string)
+			);
+		}
+
+		res.status(200);
+		res.sendFile(imagePath);
+	} else {
+		res.status(400);
+		res.send('Image not found');
+	}
 });
 
 export default imagesRoute;
