@@ -53,3 +53,15 @@ export const manipulateImage = async (
   await resizeImage(imagePath, imageHeight, imageWidth, newImagePath);
   return newImagePath;
 };
+
+export const checkParameters = (width: string, height: string) => {
+  if (isNaN(parseInt(width)) && isNaN(parseInt(height))) {
+    return [false, "invalid width and height parameter"];
+  } else if (isNaN(parseInt(width))) {
+    return [false, "invalid width parameter"];
+  } else if (isNaN(parseInt(height))) {
+    return [false, "invalid height parameter"];
+  } else {
+    return [true];
+  }
+};

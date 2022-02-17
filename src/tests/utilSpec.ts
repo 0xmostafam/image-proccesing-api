@@ -1,16 +1,17 @@
 import { checkFileExists } from "../util";
 import path from "path";
 
-describe("Test async checkFileExists Function", () => {
-  it("Testing a valid image.", async () => {
+describe("Test checkFileExists Function", () => {
+  it("Testing a valid image.",  () => {
     const imagePath = path.resolve("Images/fjord.jpg");
-    const result = await checkFileExists(imagePath);
+    const result = checkFileExists(imagePath);
     expect(result).toEqual(true);
   });
 
-  it("Testing an invalid image.", async () => {
+  it("Testing an invalid image.", () => {
     const imagePath = path.resolve("Images/invalidimage.jpg");
-    const result = await checkFileExists(imagePath);
+    const result = checkFileExists(imagePath);
     expect(result).toEqual(false);
   });
 });
+

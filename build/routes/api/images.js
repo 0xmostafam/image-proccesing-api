@@ -23,6 +23,11 @@ imagesRoute.get("/", async (req, res) => {
         // if yes we call the manipulationImage function to resize it and recieve the path of the new image
         // if no we show the user the normal image
         if (req.query.height && req.query.width) {
+            const result = (0, util_1.checkParameters)(req.query.width, req.query.height);
+            if (!result[0]) {
+                res.status(400);
+                res.send(result[1]);
+            }
             imagePath = await (0, util_1.manipulateImage)(imagePath, parseInt(req.query.height), parseInt(req.query.width));
         }
         res.status(200);

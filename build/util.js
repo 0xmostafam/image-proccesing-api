@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.manipulateImage = exports.checkFileExists = void 0;
+exports.checkParameters = exports.manipulateImage = exports.checkFileExists = void 0;
 const fs_1 = require("fs");
 const sharp_1 = __importDefault(require("sharp"));
 const path_1 = __importDefault(require("path"));
@@ -52,3 +52,18 @@ const manipulateImage = async (imagePath, imageHeight, imageWidth) => {
     return newImagePath;
 };
 exports.manipulateImage = manipulateImage;
+const checkParameters = (width, height) => {
+    if (isNaN(parseInt(width)) && isNaN(parseInt(height))) {
+        return [false, "invalid width and height parameter"];
+    }
+    else if (isNaN(parseInt(width))) {
+        return [false, "invalid width parameter"];
+    }
+    else if (isNaN(parseInt(height))) {
+        return [false, "invalid height parameter"];
+    }
+    else {
+        return [true];
+    }
+};
+exports.checkParameters = checkParameters;
