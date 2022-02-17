@@ -12,14 +12,14 @@ export const checkFileExists = (filePath: string) => {
 };
 
 // is used to create thumbs folder but if it was already created the function is skiped
-const createDirectory = (dirPath: string) => {
+export const createDirectory = (dirPath: string) => {
   if (checkFileExists(dirPath)) return;
   mkdir(dirPath, (err) => {
     if (err) console.log(err);
   });
 };
 // resize logic
-const resizeImage = async (
+export const resizeImage = async (
   imagePath: string,
   imageHeight: number,
   imageWidth: number,
@@ -56,7 +56,7 @@ export const manipulateImage = async (
 
 export const checkParameters = (width: string, height: string) => {
   if (isNaN(parseInt(width)) && isNaN(parseInt(height))) {
-    return [false, "invalid width and height parameter"];
+    return [false, "invalid width and height parameters"];
   } else if (isNaN(parseInt(width))) {
     return [false, "invalid width parameter"];
   } else if (isNaN(parseInt(height))) {

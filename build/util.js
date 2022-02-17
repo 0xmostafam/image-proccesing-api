@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkParameters = exports.manipulateImage = exports.checkFileExists = void 0;
+exports.checkParameters = exports.manipulateImage = exports.resizeImage = exports.createDirectory = exports.checkFileExists = void 0;
 const fs_1 = require("fs");
 const sharp_1 = __importDefault(require("sharp"));
 const path_1 = __importDefault(require("path"));
@@ -27,6 +27,7 @@ const createDirectory = (dirPath) => {
             console.log(err);
     });
 };
+exports.createDirectory = createDirectory;
 // resize logic
 const resizeImage = async (imagePath, imageHeight, imageWidth, newImagePath) => {
     try {
@@ -39,22 +40,23 @@ const resizeImage = async (imagePath, imageHeight, imageWidth, newImagePath) => 
         console.log(e);
     }
 };
+exports.resizeImage = resizeImage;
 // main manipulation function incase i wanted to add more features
 const manipulateImage = async (imagePath, imageHeight, imageWidth) => {
-    createDirectory(path_1.default.resolve("thumbs"));
+    (0, exports.createDirectory)(path_1.default.resolve("thumbs"));
     const imageName = path_1.default.basename(imagePath).split(".")[0];
     const newImagePath = path_1.default.resolve(`thumbs/${imageName}_thumb_${imageWidth}_${imageHeight}.jpg`);
     // check if image is already processed
     if ((0, exports.checkFileExists)(newImagePath)) {
         return newImagePath;
     }
-    await resizeImage(imagePath, imageHeight, imageWidth, newImagePath);
+    await (0, exports.resizeImage)(imagePath, imageHeight, imageWidth, newImagePath);
     return newImagePath;
 };
 exports.manipulateImage = manipulateImage;
 const checkParameters = (width, height) => {
     if (isNaN(parseInt(width)) && isNaN(parseInt(height))) {
-        return [false, "invalid width and height parameter"];
+        return [false, "invalid width and height parameters"];
     }
     else if (isNaN(parseInt(width))) {
         return [false, "invalid width parameter"];

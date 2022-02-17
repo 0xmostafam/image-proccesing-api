@@ -30,6 +30,7 @@ imagesRoute.get("/", async (req: Request, res: Response) => {
       if (!result[0]) {
         res.status(400);
         res.send(result[1]);
+        return;
       }
       imagePath = await manipulateImage(
         imagePath,

@@ -27,6 +27,7 @@ imagesRoute.get("/", async (req, res) => {
             if (!result[0]) {
                 res.status(400);
                 res.send(result[1]);
+                return;
             }
             imagePath = await (0, util_1.manipulateImage)(imagePath, parseInt(req.query.height), parseInt(req.query.width));
         }
