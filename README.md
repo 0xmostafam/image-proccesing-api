@@ -1,9 +1,5 @@
 # Udacity Image Proccesing API
 
-- Name: Mostafa Mohamed Ali
-- Email: mostafamohamed8881@gmail.com
-- Track: Advanced Web
-
 ## Project Structure
 
 ```
