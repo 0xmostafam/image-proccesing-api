@@ -16,8 +16,9 @@ imagesRoute.get("/", async (req, res) => {
         return;
     }
     let imagePath = path_1.default.join(imageDirPath, req.query.imageName);
+    const imageExists = (0, util_1.checkImageExists)(imagePath);
     // Check if the image does exist
-    if (await (0, util_1.checkImageExists)(imagePath)) {
+    if (imageExists) {
         // Check if we have height and width parameters
         // if yes we call the manipulationImage function to resize it and recieve the path of the new image
         // if no we show the user the normal image

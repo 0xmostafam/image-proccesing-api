@@ -5,16 +5,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.manipulateImage = exports.checkImageExists = void 0;
 const fs_1 = require("fs");
-const fs_2 = require("fs");
 const sharp_1 = __importDefault(require("sharp"));
 const path_1 = __importDefault(require("path"));
-const checkImageExists = async (imagePath) => {
+const checkImageExists = (imagePath) => {
     try {
-        await fs_1.promises.access(imagePath, fs_2.constants.F_OK);
-        return true;
+        if ((0, fs_1.existsSync)(imagePath))
+            return true;
+        return false;
     }
     catch (e) {
-        return false;
+        console.log(e);
     }
 };
 exports.checkImageExists = checkImageExists;
@@ -23,7 +23,7 @@ const resizeImage = async (imagePath, imageHeight, imageWidth, newImagePath) => 
     try {
         await (0, sharp_1.default)(imagePath)
             .resize({ height: imageHeight, width: imageWidth })
-            .toFormat('jpg')
+            .toFormat("jpg")
             .toFile(newImagePath);
     }
     catch (e) {
@@ -32,13 +32,13 @@ const resizeImage = async (imagePath, imageHeight, imageWidth, newImagePath) => 
 };
 // main manipulation function incase i wanted to add more features
 const manipulateImage = async (imagePath, imageHeight, imageWidth) => {
-    const imageName = path_1.default.basename(imagePath).split('.')[0];
+    const imageName = path_1.default.basename(imagePath).split(".")[0];
     const newImagePath = path_1.default.resolve(`thumbs/${imageName}_thumb_${imageWidth}_${imageHeight}.jpg`);
     // check if image is already processed
-    if (await (0, exports.checkImageExists)(newImagePath)) {
+    if ((0, exports.checkImageExists)(newImagePath)) {
         return newImagePath;
     }
-    resizeImage(imagePath, imageHeight, imageWidth, newImagePath);
+    await resizeImage(imagePath, imageHeight, imageWidth, newImagePath);
     return newImagePath;
 };
 exports.manipulateImage = manipulateImage;

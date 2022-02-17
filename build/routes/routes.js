@@ -8,9 +8,9 @@ const images_1 = __importDefault(require("./api/images"));
 const middleware_1 = require("../middleware");
 const routes = (0, express_1.Router)();
 routes.use(middleware_1.logger);
-routes.get("/", (req, res) => {
+routes.get('/', (req, res) => {
     res.status(200);
-    res.send("Main Routes Endpoint");
+    res.send('Main Routes Endpoint');
 });
-routes.use("/images", images_1.default);
+routes.use('/images', images_1.default);
 exports.default = routes;
