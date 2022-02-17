@@ -14,6 +14,15 @@ imagesRoute.get("/", async (req: Request, res: Response) => {
     return;
   }
 
+  if (
+    (req.query.height && !req.query.width) ||
+    (!req.query.height && req.query.width)
+  ) {
+    res.status(400);
+    res.send("missing width or heigth parameter");
+    return;
+  }
+
   let imagePath = path.join(imageDirPath, req.query.imageName as string);
   const imageExists = checkFileExists(imagePath);
   // Check if the image does exist

@@ -64,6 +64,12 @@ const checkParameters = (width, height) => {
     else if (isNaN(parseInt(height))) {
         return [false, "invalid height parameter"];
     }
+    else if (parseInt(width) < 0) {
+        return [false, "width must be greater than 0"];
+    }
+    else if (parseInt(height) < 0) {
+        return [false, "height must be greater than 0"];
+    }
     else {
         return [true];
     }
