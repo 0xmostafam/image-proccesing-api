@@ -50,7 +50,7 @@
 
 - to run the project you can use `npm run start`
 - to test the project you can use `npm run test`
-- you can access the endpoint after running by using any of these to url below
+- you can access the endpoint after running by using any of these url below
 
 ```
 http://localhost:8000/api/images?imageName=fjord.jpg // to access the full image
