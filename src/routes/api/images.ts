@@ -1,6 +1,6 @@
 import express from "express";
 import { Request, Response } from "express";
-import { checkImageExists, manipulateImage } from "../../util";
+import { checkFileExists, manipulateImage } from "../../util";
 import path from "path";
 
 const imageDirPath: string = path.resolve("Images");
@@ -15,7 +15,7 @@ imagesRoute.get("/", async (req: Request, res: Response) => {
   }
 
   let imagePath = path.join(imageDirPath, req.query.imageName as string);
-  const imageExists = checkImageExists(imagePath);
+  const imageExists = checkFileExists(imagePath);
   // Check if the image does exist
   if (imageExists) {
     // Check if we have height and width parameters

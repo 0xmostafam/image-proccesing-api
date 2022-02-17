@@ -3,13 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.manipulateImage = exports.checkImageExists = void 0;
+exports.manipulateImage = exports.checkFileExists = void 0;
 const fs_1 = require("fs");
 const sharp_1 = __importDefault(require("sharp"));
 const path_1 = __importDefault(require("path"));
-const checkImageExists = (imagePath) => {
+const checkFileExists = (filePath) => {
     try {
-        if ((0, fs_1.existsSync)(imagePath))
+        if ((0, fs_1.existsSync)(filePath))
             return true;
         return false;
     }
@@ -17,7 +17,16 @@ const checkImageExists = (imagePath) => {
         console.log(e);
     }
 };
-exports.checkImageExists = checkImageExists;
+exports.checkFileExists = checkFileExists;
+// is used to create thumbs folder but if it was already created the function is skiped
+const createDirectory = (dirPath) => {
+    if ((0, exports.checkFileExists)(dirPath))
+        return;
+    (0, fs_1.mkdir)(dirPath, (err) => {
+        if (err)
+            console.log(err);
+    });
+};
 // resize logic
 const resizeImage = async (imagePath, imageHeight, imageWidth, newImagePath) => {
     try {
@@ -32,10 +41,11 @@ const resizeImage = async (imagePath, imageHeight, imageWidth, newImagePath) => 
 };
 // main manipulation function incase i wanted to add more features
 const manipulateImage = async (imagePath, imageHeight, imageWidth) => {
+    createDirectory(path_1.default.resolve("thumbs"));
     const imageName = path_1.default.basename(imagePath).split(".")[0];
     const newImagePath = path_1.default.resolve(`thumbs/${imageName}_thumb_${imageWidth}_${imageHeight}.jpg`);
     // check if image is already processed
-    if ((0, exports.checkImageExists)(newImagePath)) {
+    if ((0, exports.checkFileExists)(newImagePath)) {
         return newImagePath;
     }
     await resizeImage(imagePath, imageHeight, imageWidth, newImagePath);

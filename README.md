@@ -36,7 +36,7 @@
 
 - i used routes to make it a scalable software so later if i wanted for example to add videos endpoint, i can just create a `videos.ts` in the api folder and link it in the `routes.ts`
 - `util.ts` has three functions
-  - `checkImageExists` : checks if the given path has an image or not
+  - `checkFileExists` : checks if the given path has a file/folder
   - `resizeImage` : has the logic of resizing an image
   - `manipulateImage` : i created this function so later if i wanted to add more features to the manipulations of an image i can just create the function and add it to manipulateImage
 - `middleware.ts`: has the functions that act like middleware, at the time of writing i only added a logger that logs every request made on the server
